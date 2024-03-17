@@ -20,16 +20,37 @@ def scrape_data_point():
     Returns:
         str: The headline text if found, otherwise an empty string.
     """
-    req = requests.get("https://www.thedp.com")
+    req = requests.get("https://www.thedp.com/section/sports")
     loguru.logger.info(f"Request URL: {req.url}")
     loguru.logger.info(f"Request status code: {req.status_code}")
-
     if req.ok:
         soup = bs4.BeautifulSoup(req.text, "html.parser")
-        target_element = soup.find("a", class_="frontpage-link")
-        data_point = "" if target_element is None else target_element.text
-        loguru.logger.info(f"Data point: {data_point}")
-        return data_point
+        article_div = soup.find("div", class_="row section-article")
+        if article_div:
+            article_title_element = article_div.find("h3", class_="standard-link")
+            if article_title_element:
+                article_title = article_title_element.text.strip()
+                loguru.logger.info(f"Article title: {article_title}")
+                return article_title
+            else:
+                loguru.logger.warning("Article title element not found inside the article div.")
+                return ""
+        else:
+            loguru.logger.warning("Article div not found.")
+            return ""
+    else:
+        loguru.logger.error("Failed to fetch page.")
+        return ""
+    # req = requests.get("https://www.thedp.com")
+    # loguru.logger.info(f"Request URL: {req.url}")
+    # loguru.logger.info(f"Request status code: {req.status_code}")
+
+    # if req.ok:
+    #     soup = bs4.BeautifulSoup(req.text, "html.parser")
+    #     target_element = soup.find("a", class_="frontpage-link")
+    #     data_point = "" if target_element is None else target_element.text
+    #     loguru.logger.info(f"Data point: {data_point}")
+    #     return data_point
 
 
 if __name__ == "__main__":
