@@ -11,9 +11,8 @@ Tools like GitHub Actions, GitLab CI and others make git scraping adaptable to d
 This template includes a sample workflow to demonstrate the core git scraping capabilities. Read on to learn how to customize it!
 
 ## Current Changes
-I modified the scraper to pull the latest sports title from the thedp.com
-I first look for the first article class, and then within that element find a subelement that contains the actual article title.
-
+I modified the scraper to pull the 2nd medium article title from the Dp.com
+I adjusted it to instead find the 2nd frontpage article by changing what we are looking for 
 ## Overview
 
 The workflow defined in `.github/workflows/scrape.yaml` runs on a defined schedule to:
